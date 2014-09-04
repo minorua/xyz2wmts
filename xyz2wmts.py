@@ -40,9 +40,9 @@ def scaleDenominator(zoom):
   return pixelsize / 0.00028      # scale = 0.00028 / pixelsize
 
 class WMTSLayerDef:
-  PARAMS = ["identifier", "title", "templateUrl", "abstract", "zmin", "zmax", "bbox", "format"]
+  PARAMS = ["identifier", "title", "abstract", "templateUrl", "zmin", "zmax", "bbox", "format"]
 
-  def __init__(self, identifier, title, templateUrl, abstract=None, zmin=None, zmax=None, bbox=None, format=None):
+  def __init__(self, identifier, title, abstract, templateUrl, zmin=None, zmax=None, bbox=None, format=None):
     self.identifier = identifier
     self.title = title
     self.templateUrl = templateUrl
