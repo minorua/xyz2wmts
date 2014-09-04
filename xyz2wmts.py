@@ -24,9 +24,6 @@
 
 import math
 
-from xmldocument import MyXMLDocument
-import settings
-
 # Pseudo Mercator tile
 R = 6378137
 TSIZE1 = R * math.pi
@@ -82,6 +79,7 @@ class WMTSLayerDef:
       return None
 
 def xyz2wmts(settings):
+  from xmldocument import MyXMLDocument
   doc = MyXMLDocument()
   E = doc.append
 
@@ -194,4 +192,30 @@ def xyz2wmts(settings):
   return doc
 
 if __name__ == "__main__":
+  import sys
+
+  if len(sys.argv) == 1:
+    # read settings from settings.py if no command line parameter is specified
+    import settings
+    print xyz2wmts(settings).document().toprettyxml("  ", "\n", "utf-8")
+    sys.exit(0)
+
+  # read settings from json file
+  import os
+  import json
+
+  class Settings:
+    def __init__(self, settings):
+      self.service = settings["service"]
+      self.layers = settings["layers"]
+
+  filename = sys.argv[1]
+  if not os.path.exists(filename):
+    sys.stderr.write("{} doesn't exist.".format(filename))
+    sys.exit(1)
+
+  with open(filename) as f:
+    settings = Settings(json.load(f))
+
   print xyz2wmts(settings).document().toprettyxml("  ", "\n", "utf-8")
+  sys.exit(0)
