@@ -13,11 +13,12 @@ service = {"Title": "Title",
            "AccessConstraints": "",
            "ServiceMetadataURL": "http://localhost/WMTSCapabilities.xml"}
 
-# WMTS layers
-# - format 1 (list):
+# WMTS layer
+# Layer definition formats
+#  1. list:
 #   [identifier as unicode, title as unicode, templateUrl as str, abstract as unicode,
 #    zmin as int, zmax as int, bbox in WGS84 as list [xmin, ymin, xmax, ymax], format as str]
-# - format 2 (dict):
+#  2. dict:
 #   {"identifier": u"id", "title": u"title",
 #    "templateUrl": "http://localhost/wmts/layer1/{z}/{x}/{y}.png", "abstract": u"abstract",
 #    "zmin": 0, "zmax": 18, "bbox": [xmin, ymin, xmax, ymax], "format": "image/png"}

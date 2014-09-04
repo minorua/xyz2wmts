@@ -9,7 +9,7 @@ xyz2wmts helps you to start providing [OGC WMTS](http://www.opengeospatial.org/s
 
 ## Sample WMTS
 
-Metadata URL is https://dl.dropboxusercontent.com/u/21526091/wmts/WMTSCapabilities.xml
+Metadata URL is https://dl.dropboxusercontent.com/u/21526091/wmts/1.0.0/WMTSCapabilities.xml
 
 Layer
 
