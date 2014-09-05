@@ -11,7 +11,7 @@ service = {"Title": "Title",
            "Keywords": ["Keyword"],
            "Fees": "",
            "AccessConstraints": "",
-           "ServiceMetadataURL": "http://localhost/WMTSCapabilities.xml"}
+           "ServiceMetadataURL": "http://localhost/wmts/1.0.0/WMTSCapabilities.xml"}
 
 # WMTS layer
 
@@ -37,7 +37,14 @@ layers = []
 
 # TODO: remove the following and write your own definitions
 
-# layer definition examples
+
+# Layer definition examples
+# - Worldwide
+layers.append([u"osm", u"OpenStreetMap", u"", "http://localhost/wmts/osm/{z}/{x}/{y}.png", 0, 19])
+layers.append({"identifier": u"osm_2", "title": u"OpenStreetMap 2",
+               "templateUrl": "http://localhost/wmts/osm/{z}/{x}/{y}.png", "zmin": 0, "zmax": 19})
+
+# - Regional map
 layers.append([u"srtm3_shaded_relief", u"SRTM3 SHADED RELIEF (JAPAN)", u"The source is SRTM3.",
                "http://localhost/wmts/srtm3_shaded_relief/{z}/{x}/{y}.png",
                3, 10, [119.9995833, 19.9995833, 154.0004167, 47.0004167]])
