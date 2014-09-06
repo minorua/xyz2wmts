@@ -6,12 +6,12 @@
 # ================================
 
 # WMTS metadata URL
-metadataURL = "http://localhost/wmts/1.0.0/WMTSCapabilities.xml"
+metadataURL = "https://gist.githubusercontent.com/minorua/1f047985f87597030dce/raw/WMTSCapabilities.xml"
 
 # WMTS
-service = {"Title": "Title",
-           "Abstract": {"en": "Abstract"},
-           "Keywords": ["Keyword"],
+service = {"Title": u"地理院タイル(WMTSテスト)",
+           "Abstract": {"ja": u"このサービスは国土地理院の地理院タイルをWMTSクライアントから利用可能にします。こうしたWMTSメタデータ(XML文書)は第三者が公開するべきではないと思われますが、QGISからのWMTS利用の試験用として暫時公開します。地理院タイルの利用にあたっては地理院タイル利用規約(http://portal.cyberjapan.jp/help/termsofuse.html)に従って下さい。"},
+           "Keywords": [],
            "Fees": "",                      # NONE if no fees or terms
            "AccessConstraints": ""}         # NONE if no constraint
 
@@ -19,7 +19,7 @@ service = {"Title": "Title",
 # WMTS provider
 provider = {"Name": "ProviderName",
             "SiteURL": "http://localhost/"}
-#provider = {}                              # uncomment if provider information is not necessary
+provider = {}                              # uncomment if provider information is not necessary
 
 
 # WMTS layer
@@ -46,19 +46,13 @@ layers = []
 
 # TODO: remove the following and write your own definitions
 
-
-# Layer definition examples
-# - Worldwide
-layers.append([u"osm", u"OpenStreetMap", u"", "http://localhost/wmts/osm/{z}/{x}/{y}.png", 0, 19])
-layers.append({"identifier": u"osm_2", "title": u"OpenStreetMap 2",
-               "templateUrl": "http://localhost/wmts/osm/{z}/{x}/{y}.png", "zmin": 0, "zmax": 19})
-
-# - Regional map
-layers.append([u"srtm3_shaded_relief", u"SRTM3 SHADED RELIEF (JAPAN)", u"The source is SRTM3.",
-               "http://localhost/wmts/srtm3_shaded_relief/{z}/{x}/{y}.png",
-               3, 10, [119.9995833, 19.9995833, 154.0004167, 47.0004167]])
-layers.append({"identifier": u"srtm3_shaded_relief_2",
-               "title": u"SRTM3 SHADED RELIEF (JAPAN) 2",
-               "abstract": u"The source is SRTM3.", 
-               "templateUrl": "http://localhost/wmts/srtm3_shaded_relief/{z}/{x}/{y}.png",
-               "zmin": 3, "zmax": 10, "bbox": [119.9995833, 19.9995833, 154.0004167, 47.0004167]})
+layers.append(["std",u"標準地図","","http://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png",2,18,[122.78,20.4,154.78,45.58]])
+layers.append(["pale",u"淡色地図","","http://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png",12,18,[122.78,20.4,154.78,45.58]])
+layers.append(["blank",u"白地図","","http://cyberjapandata.gsi.go.jp/xyz/blank/{z}/{x}/{y}.png",5,14,[122.78,20.4,154.78,45.58]])
+layers.append(["english","Romanized","","http://cyberjapandata.gsi.go.jp/xyz/english/{z}/{x}/{y}.png",5,11,[122.78,20.4,154.78,45.58]])
+layers.append(["relief",u"色別標高図","","http://cyberjapandata.gsi.go.jp/xyz/relief/{z}/{x}/{y}.png",5,15,[122.78,20.4,154.78,45.58]])
+layers.append(["ort",u"電子国土基本図（オルソ画像）","","http://cyberjapandata.gsi.go.jp/xyz/ort/{z}/{x}/{y}.jpg",15,17,[122.78,20.4,154.78,45.58]])
+layers.append(["gazo1",u"国土画像情報（第一期：1974～1978年撮影）","","http://cyberjapandata.gsi.go.jp/xyz/gazo1/{z}/{x}/{y}.jpg",15,17,[122.78,20.4,154.78,45.58]])
+layers.append(["gazo2",u"国土画像情報（第二期：1979～1983年撮影）","","http://cyberjapandata.gsi.go.jp/xyz/gazo2/{z}/{x}/{y}.jpg",15,17,[122.78,20.4,154.78,45.58]])
+layers.append(["gazo3",u"国土画像情報（第三期：1984～1986年撮影）","","http://cyberjapandata.gsi.go.jp/xyz/gazo3/{z}/{x}/{y}.jpg",15,17,[122.78,20.4,154.78,45.58]])
+layers.append(["gazo4",u"国土画像情報（第四期：1988～1990年撮影）","","http://cyberjapandata.gsi.go.jp/xyz/gazo4/{z}/{x}/{y}.jpg",15,17,[122.78,20.4,154.78,45.58]])
