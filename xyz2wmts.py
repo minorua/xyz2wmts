@@ -31,7 +31,7 @@ TSIZE1 = R * math.pi
 def degreesToMercatorMeters(lon, lat):
   # formula: http://en.wikipedia.org/wiki/Mercator_projection
   x = R * lon * math.pi / 180
-  y = R * math.log(math.tan(math.pi / 4 + (lat * math.pi / 180) / 2))
+  y = R * math.log(math.tan((90 + lat) * math.pi / 360))
   return x, y
 
 def scaleDenominator(zoom):
@@ -90,43 +90,51 @@ def xyz2wmts(settings):
                                   "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
                                   "xsi:schemaLocation": "http://www.opengis.net/wmts/1.0 http://schemas.opengis.net/wmts/1.0/wmtsGetCapabilities_response.xsd"})
 
+  # ServiceMetadataURL
+  E(root, "ServiceMetadataURL", {"xlink:href": settings["metadataURL"]})
+
   # ows:ServiceIdentification
-  service = settings.service
-  e = E(root, "ows:ServiceIdentification")
-  E(e, "ows:Title", text=service["Title"])
-  for lang, abstract in service["Abstract"].iteritems():
-    E(e, "ows:Abstract", {"xml:lang": lang}, abstract)
+  service = settings.get("service")
+  if service:
+    e = E(root, "ows:ServiceIdentification")
 
-  if len(service["Keywords"]):
-    e1 = E(e, "ows:Keywords")
-    for keyword in service["Keywords"]:
-      E(e1, "ows:Keyword", text=keyword)
+    E(e, "ows:ServiceType", text="OGC WMTS")
+    E(e, "ows:ServiceTypeVersion", text="1.0.0")
+    E(e, "ows:Title", text=service["Title"])
 
-  E(e, "ows:ServiceType", text="OGC WMTS")
-  E(e, "ows:ServiceTypeVersion", text="1.0.0")
+    for lang, abstract in (service.get("Abstract") or {}).iteritems():
+      E(e, "ows:Abstract", {"xml:lang": lang}, abstract)
 
-  if service["Fees"]:
-    E(e, "ows:Fees", text=service["Fees"])
-  if service["AccessConstraints"]:
-    E(e, "ows:AccessConstraints", text=service["AccessConstraints"])
+    if service.get("Keywords"):
+      e1 = E(e, "ows:Keywords")
+      for keyword in service["Keywords"]:
+        E(e1, "ows:Keyword", text=keyword)
 
-  """
+    if service.get("Fees"):
+      E(e, "ows:Fees", text=service["Fees"])
+    if service.get("AccessConstraints"):
+      E(e, "ows:AccessConstraints", text=service["AccessConstraints"])
+
   # ows:ServiceProvider
-  url = "ProviderSiteURL"
-  e = E(root, "ows:ServiceProvider")
-  E(e, "ows:ProviderName", text="ProviderName")
-  E(e, "ows:ProviderSite", {"xlink:href": url})
-  e1 = E(e, "ows:ServiceContact")
-  E(e1, "ows:IndividualName", text="IndividualName")
-  E(e1, "ows:PositionName", text="PositionName")
-  #E(e1, "ows:ContactInfo", text="ContactInfo")
-  """
+  provider = settings.get("provider")
+  if provider:
+    e = E(root, "ows:ServiceProvider")
+    E(e, "ows:ProviderName", text=provider["Name"])
+
+    if provider.get("SiteURL"):
+      E(e, "ows:ProviderSite", {"xlink:href": provider["SiteURL"]})
+
+    """
+    e1 = E(e, "ows:ServiceContact")
+    E(e1, "ows:IndividualName", text="IndividualName")
+    E(e1, "ows:PositionName", text="PositionName")
+    #E(e1, "ows:ContactInfo", text="ContactInfo")
+    """
 
   # Contents
-  bboxes = [None]
   msets = {}
   contents = E(root, "Contents")
-  for lyr in map(WMTSLayerDef.fromListOrDict, settings.layers):
+  for lyr in map(WMTSLayerDef.fromListOrDict, settings["layers"]):
     # Layer
     layer = E(contents, "Layer")
     E(layer, "ows:Identifier", text=lyr.identifier)
@@ -155,22 +163,21 @@ def xyz2wmts(settings):
 
     E(layer, "Format", text=lyr.format)
 
-    if not lyr.bbox in bboxes:
-      bboxes.append(lyr.bbox)
-    msetId = "z{0}to{1}_{2}".format(lyr.zmin, lyr.zmax, bboxes.index(lyr.bbox))
+    # TileMatrixSetLink
+    msetId = "z{0}to{1}".format(lyr.zmin, lyr.zmax)
     if not msetId in msets:
-      msets[msetId] = (lyr.zmin, lyr.zmax, lyr.bbox)
+      msets[msetId] = (lyr.zmin, lyr.zmax)
 
     e = E(layer, "TileMatrixSetLink")
     E(e, "TileMatrixSet", text=msetId)
-    #E(e, "TileMatrixSetLimits") #TODO
+    #E(e, "TileMatrixSetLimits")
 
     templateUrl = lyr.templateUrl.replace("{z}", "{TileMatrix}").replace("{y}", "{TileRow}").replace("{x}", "{TileCol}")
     E(layer, "ResourceURL", {"format": lyr.format, "resourceType": "tile", "template": templateUrl})
 
   # TileMatrixSet
   for msetId in msets:
-    zmin, zmax, bbox = msets[msetId]
+    zmin, zmax = msets[msetId]
     matrixSet = E(contents, "TileMatrixSet")
     E(matrixSet, "ows:Identifier", text=msetId)
     E(matrixSet, "ows:SupportedCRS", text="urn:ogc:def:crs:EPSG:6.18.3:3857")
@@ -186,10 +193,14 @@ def xyz2wmts(settings):
       E(matrix, "MatrixWidth", text=str(matrixSize))
       E(matrix, "MatrixHeight", text=str(matrixSize))
 
-  # ServiceMetadataURL
-  E(root, "ServiceMetadataURL", {"xlink:href": service["ServiceMetadataURL"]})
-
   return doc
+
+def mod2dict(mod):
+  d ={}
+  for attr in dir(mod):
+    if attr[0] != "_":
+      d[attr] = getattr(mod, attr)
+  return d
 
 if __name__ == "__main__":
   import sys
@@ -197,17 +208,12 @@ if __name__ == "__main__":
   if len(sys.argv) == 1:
     # read settings from settings.py if no command line parameter is specified
     import settings
-    print xyz2wmts(settings).document().toprettyxml("  ", "\n", "utf-8")
+    print xyz2wmts(mod2dict(settings)).document().toprettyxml("  ", "\n", "utf-8")
     sys.exit(0)
 
   # read settings from json file
   import os
   import json
-
-  class Settings:
-    def __init__(self, settings):
-      self.service = settings["service"]
-      self.layers = settings["layers"]
 
   filename = sys.argv[1]
   if not os.path.exists(filename):
@@ -215,7 +221,7 @@ if __name__ == "__main__":
     sys.exit(1)
 
   with open(filename) as f:
-    settings = Settings(json.load(f))
+    settings = json.load(f)
 
   print xyz2wmts(settings).document().toprettyxml("  ", "\n", "utf-8")
   sys.exit(0)

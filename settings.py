@@ -5,13 +5,22 @@
 #            Settings
 # ================================
 
-# WMTS service
+# WMTS metadata URL
+metadataURL = "http://localhost/wmts/1.0.0/WMTSCapabilities.xml"
+
+# WMTS
 service = {"Title": "Title",
            "Abstract": {"en": "Abstract"},
            "Keywords": ["Keyword"],
-           "Fees": "",
-           "AccessConstraints": "",
-           "ServiceMetadataURL": "http://localhost/wmts/1.0.0/WMTSCapabilities.xml"}
+           "Fees": "",                      # NONE if no fees or terms
+           "AccessConstraints": ""}         # NONE if no constraint
+
+
+# WMTS provider
+provider = {"Name": "ProviderName",
+            "SiteURL": "http://localhost/"}
+#provider = {}                              # uncomment if provider information is not necessary
+
 
 # WMTS layer
 

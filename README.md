@@ -7,6 +7,10 @@ xyz2wmts helps you to start providing [OGC WMTS](http://www.opengeospatial.org/s
  3. run `python xyz2wmts.py > WMTSCapabilities.xml`.
  4. upload tiles and WMTSCapabilities.xml to a web server.
 
+**See OGC Documents for details of WMTS and WMTSCapabilities.xml**
+ * [Web Map Tile Service Implementation Standard](http://www.opengeospatial.org/standards/wmts)
+ * [Web Service Common Implementation Specification](http://www.opengeospatial.org/standards/common)
+
 ## Sample WMTS
 
 Metadata URL is https://dl.dropboxusercontent.com/u/21526091/wmts/1.0.0/WMTSCapabilities.xml
