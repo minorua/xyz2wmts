@@ -46,7 +46,7 @@ layers = []
 
 # TODO: remove the following and write your own definitions
 
-layers.append(["std",u"標準地図","","http://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png",2,18,[122.78,20.4,154.78,45.58]])
+layers.append(["std",u"標準地図","","http://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png",2,18])
 layers.append(["pale",u"淡色地図","","http://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png",12,18,[122.78,20.4,154.78,45.58]])
 layers.append(["blank",u"白地図","","http://cyberjapandata.gsi.go.jp/xyz/blank/{z}/{x}/{y}.png",5,14,[122.78,20.4,154.78,45.58]])
 layers.append(["english","Romanized","","http://cyberjapandata.gsi.go.jp/xyz/english/{z}/{x}/{y}.png",5,11,[122.78,20.4,154.78,45.58]])
