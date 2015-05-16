@@ -44,15 +44,16 @@ provider = {}                              # uncomment if provider information i
 
 layers = []
 
-# TODO: remove the following and write your own definitions
-
 layers.append(["std",u"標準地図","","http://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png",2,18])
 layers.append(["pale",u"淡色地図","","http://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png",12,18,[122.78,20.4,154.78,45.58]])
 layers.append(["blank",u"白地図","","http://cyberjapandata.gsi.go.jp/xyz/blank/{z}/{x}/{y}.png",5,14,[122.78,20.4,154.78,45.58]])
-layers.append(["english","Romanized","","http://cyberjapandata.gsi.go.jp/xyz/english/{z}/{x}/{y}.png",5,11,[122.78,20.4,154.78,45.58]])
+layers.append(["english","English","","http://cyberjapandata.gsi.go.jp/xyz/english/{z}/{x}/{y}.png",5,11,[122.78,20.4,154.78,45.58]])
 layers.append(["relief",u"色別標高図","","http://cyberjapandata.gsi.go.jp/xyz/relief/{z}/{x}/{y}.png",5,15,[122.78,20.4,154.78,45.58]])
-layers.append(["ort",u"電子国土基本図（オルソ画像）","","http://cyberjapandata.gsi.go.jp/xyz/ort/{z}/{x}/{y}.jpg",15,17,[122.78,20.4,154.78,45.58]])
-layers.append(["gazo1",u"国土画像情報（第一期：1974～1978年撮影）","","http://cyberjapandata.gsi.go.jp/xyz/gazo1/{z}/{x}/{y}.jpg",15,17,[122.78,20.4,154.78,45.58]])
+layers.append(["ort",u"写真","","http://cyberjapandata.gsi.go.jp/xyz/ort/{z}/{x}/{y}.jpg",2,17])
+layers.append(["gazo1",u"国土画像情報（第一期：1974～1978年撮影）","","http://cyberjapandata.gsi.go.jp/xyz/gazo1/{z}/{x}/{y}.jpg",10,17,[122.78,20.4,154.78,45.58]])
 layers.append(["gazo2",u"国土画像情報（第二期：1979～1983年撮影）","","http://cyberjapandata.gsi.go.jp/xyz/gazo2/{z}/{x}/{y}.jpg",15,17,[122.78,20.4,154.78,45.58]])
 layers.append(["gazo3",u"国土画像情報（第三期：1984～1986年撮影）","","http://cyberjapandata.gsi.go.jp/xyz/gazo3/{z}/{x}/{y}.jpg",15,17,[122.78,20.4,154.78,45.58]])
 layers.append(["gazo4",u"国土画像情報（第四期：1988～1990年撮影）","","http://cyberjapandata.gsi.go.jp/xyz/gazo4/{z}/{x}/{y}.jpg",15,17,[122.78,20.4,154.78,45.58]])
+layers.append(["ort_old10",u"空中写真（1961～1964年）","","http://cyberjapandata.gsi.go.jp/xyz/ort_old10/{z}/{x}/{y}.png",15,17,[122.78,20.4,154.78,45.58]])
+layers.append(["ort_USA10",u"空中写真（1945～1950年）","","http://cyberjapandata.gsi.go.jp/xyz/ort_USA10/{z}/{x}/{y}.png",15,17,[122.78,20.4,154.78,45.58]])
+layers.append(["airphoto",u"簡易空中写真（2004年～）","","http://cyberjapandata.gsi.go.jp/xyz/airphoto/{z}/{x}/{y}.png",5,18,[122.78,20.4,154.78,45.58]])
